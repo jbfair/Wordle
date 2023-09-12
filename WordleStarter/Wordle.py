@@ -21,10 +21,11 @@ def wordle():
 
     #Select Word
     x = random.randint(0,len(FIVE_LETTER_WORDS))
-    word = FIVE_LETTER_WORDS[x]
+    word = FIVE_LETTER_WORDS[x].upper()
+
     
     #Convert word to letters and place in first row
-    for x in range(0,5):
+    for x in range(0,N_COLS):
         gw.set_square_letter(0,x,word[x])
     
 
