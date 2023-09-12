@@ -23,6 +23,9 @@ def wordle():
     x = random.randint(0,len(FIVE_LETTER_WORDS))
     word = FIVE_LETTER_WORDS[x].upper()
 
+    #Check if word is valid
+    if word not in FIVE_LETTER_WORDS:
+        gw.show_message("Please Enter a Valid Word")
     
     #Convert word to letters and place in first row
     for x in range(0,N_COLS):
