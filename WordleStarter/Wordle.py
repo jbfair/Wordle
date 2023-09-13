@@ -12,10 +12,17 @@ from WordleGraphics import WordleGWindow, N_COLS, N_ROWS
 from WordleGraphics import  WordleSquare
 
 def wordle():
+    row = 0
 
     def enter_action(s):
-        gw.show_message("You have to implement this method.")
-
+        guess = ""
+        for l in range(0, N_COLS):
+            guess = guess + gw.get_square_letter(0,l)
+        check_word(guess)
+        # gw.show_message(guess)
+        
+        
+    
     gw = WordleGWindow()
     gw.add_enter_listener(enter_action)
 
@@ -24,12 +31,16 @@ def wordle():
     word = FIVE_LETTER_WORDS[x].upper()
 
     #Check if word is valid
-    if word not in FIVE_LETTER_WORDS:
-        gw.show_message("Please Enter a Valid Word")
+    def check_word(guess):
+        guess = guess.lower()
+        if guess not in FIVE_LETTER_WORDS:
+            gw.show_message("Please Enter a Valid Word")
     
     #Convert word to letters and place in first row
-    for x in range(0,N_COLS):
-        gw.set_square_letter(0,x,word[x])
+    # for x in range(0,N_COLS):
+    #     gw.set_square_letter(0,x,word[x])
+
+
     
 
 # Startup code
