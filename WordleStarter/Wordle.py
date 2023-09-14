@@ -35,8 +35,6 @@ def wordle():
         gameWord = FIVE_LETTER_WORDS[x].upper()
         return gameWord
         
-    #show word to check
-    gw.set_wrod(word)
     
     #Check if word is valid
     def check_word(guess):
