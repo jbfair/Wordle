@@ -33,7 +33,7 @@ def wordle():
     gw = WordleGWindow()
     row = 0
     gw.add_enter_listener(enter_action)
-       
+    
     gw.set_current_row(row)
     
     #Select Word
