@@ -18,7 +18,7 @@ def wordle():
         row = gw.get_current_row()
         guess = ""
         valid = False
-        for l in range(0, N_COLS):
+        for l in range(N_COLS):
             guess = guess + gw.get_square_letter(row,l)
         valid = check_word(guess,valid)
         
@@ -33,14 +33,11 @@ def wordle():
     gw = WordleGWindow()
     row = 0
     gw.add_enter_listener(enter_action)
-    
     gw.set_current_row(row)
     
     #Select Word
-
-
     def generateWord():
-        x = random.randint(0,len(FIVE_LETTER_WORDS))
+        x = random.randint(len(FIVE_LETTER_WORDS))
         gameWord = FIVE_LETTER_WORDS[x].upper()
         return gameWord
         
