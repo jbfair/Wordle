@@ -13,6 +13,27 @@ from WordleGraphics import  WordleSquare
 
 def wordle():
     
+    #Select Word
+    def generateWord():
+        gameWord = random.choice(FIVE_LETTER_WORDS)
+        return gameWord
+    
+    gameWord = generateWord()
+    print(gameWord)      
+
+
+        #Check if word is valid
+    def check_word(guess,valid,gameWord):
+        guess = guess.lower()
+        if guess not in FIVE_LETTER_WORDS:
+            valid = False
+            gw.show_message("Not in word list")
+        elif guess == gameWord:
+            gw.show_message("You guessed correct!")
+        else:
+            gw.show_message("So far, so good")
+            valid = True
+        return valid
 
     def enter_action(s):
         row = gw.get_current_row()
@@ -20,7 +41,7 @@ def wordle():
         valid = False
         for l in range(N_COLS):
             guess = guess + gw.get_square_letter(row,l)
-        valid = check_word(guess,valid)
+        valid = check_word(guess,valid,gameWord)
         
         if valid == True:    
             row = row + 1
@@ -35,25 +56,10 @@ def wordle():
     gw.add_enter_listener(enter_action)
     gw.set_current_row(row)
     
-    #Select Word
-    def generateWord():
-        x = random.randint(len(FIVE_LETTER_WORDS))
-        gameWord = FIVE_LETTER_WORDS[x].upper()
-        return gameWord
-        
-    word = generateWord()
+
     
 
-    #Check if word is valid
-    def check_word(guess,valid):
-        guess = guess.lower()
-        if guess not in FIVE_LETTER_WORDS:
-            valid = False
-            gw.show_message("Not in word list")
-        else:
-            gw.show_message("So far, so good")
-            valid = True
-        return valid
+
     
     #Convert word to letters and place in first row
     # for x in range(0,N_COLS):
