@@ -23,29 +23,39 @@ def wordle():
 
 
         #Check if word is valid
-    def check_word(guess,valid,gameWord):
+    def check_word(guess,valid,gameWord,correct):
         guess = guess.lower()
         if guess not in FIVE_LETTER_WORDS:
             valid = False
             gw.show_message("Not in word list")
         elif guess == gameWord:
-            gw.show_message("You guessed correct!")
+            gw.show_message(f"You guessed the word in {gw.get_current_row()+1} guesses!")
+            valid = True
+            correct = True
         else:
             gw.show_message("So far, so good")
             valid = True
-        return valid
+        return valid, correct
 
+        
     def enter_action(s):
         row = gw.get_current_row()
         guess = ""
         valid = False
+        correct = False
         for l in range(N_COLS):
             guess = guess + gw.get_square_letter(row,l)
-        valid = check_word(guess,valid,gameWord)
+        valid, correct = check_word(guess,valid,gameWord,correct)
         
+    
         if valid == True:    
             row = row + 1
+
         row = gw.set_current_row(row)
+
+        
+
+        
 
   
         
@@ -55,7 +65,7 @@ def wordle():
     row = 0
     gw.add_enter_listener(enter_action)
     gw.set_current_row(row)
-    
+    print(gameWord)
 
     
 
