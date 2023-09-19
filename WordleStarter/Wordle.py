@@ -9,7 +9,7 @@ import random
 
 from WordleDictionary import FIVE_LETTER_WORDS
 from WordleGraphics import WordleGWindow, N_COLS, N_ROWS
-from WordleGraphics import  WordleSquare
+from WordleGraphics import  WordleSquare, CORRECT_COLOR, PRESENT_COLOR, MISSING_COLOR
 
 def wordle():
     
@@ -33,6 +33,21 @@ def wordle():
             valid = True
             correct = True
         else:
+            for i in range(N_COLS):
+                letter = guess[i]
+                wordRow = gw.get_current_row
+                print(letter)
+
+                if letter == gameWord[i]:
+                    print("yes")
+                    # gw.set_square_color(wordRow, i, CORRECT_COLOR)
+                elif letter in gameWord:
+                    print("maybe")
+                    #gw.set_square_color(wordRow, i, PRESENT_COLOR)
+                else:
+                    print("no")
+                    #gw.set_square_color(wordRow, i, MISSING_COLOR)
+
             gw.show_message("So far, so good")
             valid = True
         return valid, correct
@@ -45,6 +60,7 @@ def wordle():
         correct = False
         for l in range(N_COLS):
             guess = guess + gw.get_square_letter(row,l)
+        
         valid, correct = check_word(guess,valid,gameWord,correct)
         
     
@@ -65,7 +81,6 @@ def wordle():
     row = 0
     gw.add_enter_listener(enter_action)
     gw.set_current_row(row)
-    print(gameWord)
 
     
 
