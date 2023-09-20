@@ -242,6 +242,8 @@ class WordleSquare:
         self._canvas.itemconfig(self._text, fill=fg)
 
 
+
+
 class WordleKey:
 
     def __init__(self, canvas, x, y, width, height, label):

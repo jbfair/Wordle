@@ -9,7 +9,7 @@ import random
 
 from WordleDictionary import FIVE_LETTER_WORDS
 from WordleGraphics import WordleGWindow, N_COLS, N_ROWS
-from WordleGraphics import  WordleSquare
+from WordleGraphics import  WordleSquare, CORRECT_COLOR, PRESENT_COLOR, MISSING_COLOR
 
 def wordle():
     
@@ -29,10 +29,30 @@ def wordle():
             valid = False
             gw.show_message("Not in word list")
         elif guess == gameWord:
+            for i in range(N_COLS):
+                wordRow = gw.get_current_row()
+                gw.set_square_color(wordRow, i, CORRECT_COLOR)
             gw.show_message(f"You guessed the word in {gw.get_current_row()+1} guesses!")
             valid = True
             correct = True
         else:
+            for i in range(N_COLS):
+                letter = guess[i]
+                wordRow = gw.get_current_row()
+                ws = WordleSquare(gw._canvas, wordRow, i)
+                l = ws.get_letter()
+                print(letter, l)
+
+                if letter == gameWord[i]:
+                    print("yes")
+                    gw.set_square_color(wordRow, i, CORRECT_COLOR)
+                elif letter in gameWord:
+                    print("maybe")
+                    gw.set_square_color(wordRow, i, PRESENT_COLOR)
+                else:
+                    print("no")
+                    gw.set_square_color(wordRow, i, MISSING_COLOR)
+
             gw.show_message("So far, so good")
             valid = True
         return valid, correct
@@ -45,6 +65,7 @@ def wordle():
         correct = False
         for l in range(N_COLS):
             guess = guess + gw.get_square_letter(row,l)
+        
         valid, correct = check_word(guess,valid,gameWord,correct)
         color_letters(guess)
         
@@ -55,6 +76,7 @@ def wordle():
         row = gw.set_current_row(row)
 
         
+<<<<<<< HEAD
     def color_letters(guess):
         alphabet = {
         'a': 0, 'b': 0, 'c': 0, 'd': 0, 'e': 0, 'f': 0, 'g': 0, 'h': 0, 'i': 0, 'j': 0,
@@ -71,14 +93,16 @@ def wordle():
         
 
   
+=======
+>>>>>>> e71655409911e49f962906748419701520f69f4d
         
         
     
     gw = WordleGWindow()
+    
     row = 0
     gw.add_enter_listener(enter_action)
     gw.set_current_row(row)
-    print(gameWord)
 
     
 
