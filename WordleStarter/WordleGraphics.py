@@ -241,20 +241,6 @@ class WordleSquare:
         self._canvas.itemconfig(self._frame, fill=color)
         self._canvas.itemconfig(self._text, fill=fg)
 
-    def set_letter_status(self, letter, word):
-        """
-        Set the color of the square based on whether the letter is correct or present in the word.
-        
-        Args:
-            letter (str): The letter to check.
-            word (str): The target word to compare against.
-        """
-        if letter in word:
-            self.set_color(PRESENT_COLOR)  # Set to yellow for present letters
-        elif letter == word[self._col]:  # Check if letter matches the target word
-            self.set_color(CORRECT_COLOR)  # Set to green for correct letters
-        else:
-            self.set_color(MISSING_COLOR)
 
 
 
