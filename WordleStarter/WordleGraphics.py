@@ -15,6 +15,9 @@ import tkinter
 N_ROWS = 6			# Number of rows
 N_COLS = 5			# Number of columns
 
+CORRECT_COLOR2 = "#5AB7FA"
+PRESENT_COLOR2 = "#EDA11C"
+
 CORRECT_COLOR = "#66BB66"       # Light green for correct letters
 PRESENT_COLOR = "#CCBB66"       # Brownish yellow for misplaced letters
 MISSING_COLOR = "#999999"       # Gray for letters that don't appear
@@ -42,7 +45,7 @@ KEY_XSEP = 5
 KEY_YSEP = 7
 
 KEY_LABELS = [
-    [ "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P" ],
+    ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P" ],
     [ "A", "S", "D", "F", "G", "H", "J", "K", "L" ],
     [ "ENTER", "Z", "X", "C", "V", "B", "N", "M", "DELETE" ]
 ]
@@ -88,6 +91,7 @@ class WordleGWindow:
                         w += (KEY_WIDTH + KEY_XSEP) / 2
                     keys[label] = WordleKey(self._canvas, x, y, w, h, label)
                     x += w + KEY_XSEP
+            
             return keys
 
         def create_message():
@@ -96,17 +100,19 @@ class WordleGWindow:
                                  MESSAGE_Y)
 
         def key_action(tke):
+
             if isinstance(tke, str):
                 ch = tke.upper()
             else:
                 ch = tke.char.upper()
-            if ch == "\007" or ch == "\177" or ch == "DELETE" or ch == "\b":
+
+            if ch == "\007" or ch == "\177" or ch == "DELETE" or ch == "\b" or ch == "\x7f":
                 self.show_message("")
                 if self._row < N_ROWS and self._col > 0:
                     self._col -= 1
                     sq = self._grid[self._row][self._col]
                     sq.set_letter(" ")
-            elif ch == "\r" or ch == "\n" or ch == "ENTER":
+            elif ch == "\r" or ch == "\n" or ch == "ENTER" or ch =="RETURN":
                 self.show_message("")
                 s = ""
                 for col in range(N_COLS):

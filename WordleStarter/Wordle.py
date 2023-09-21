@@ -9,10 +9,11 @@ import random
 
 from WordleDictionary import FIVE_LETTER_WORDS
 from WordleGraphics import WordleGWindow, N_COLS, N_ROWS
-from WordleGraphics import  WordleSquare, CORRECT_COLOR, PRESENT_COLOR, MISSING_COLOR
+from WordleGraphics import  WordleSquare, CORRECT_COLOR, PRESENT_COLOR, MISSING_COLOR, CORRECT_COLOR2, PRESENT_COLOR2
+from WordleGraphics import WordleKey
 
 def wordle():
-
+    
     def guess_counts(guess):
         guessDict = {}
         guess = guess.lower()
@@ -113,11 +114,10 @@ def wordle():
         
     
     gw = WordleGWindow()
-    
     row = 0
     gw.add_enter_listener(enter_action)
     gw.set_current_row(row)
-
+    
     
 
 
