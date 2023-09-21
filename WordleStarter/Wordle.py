@@ -12,6 +12,26 @@ from WordleGraphics import WordleGWindow, N_COLS, N_ROWS
 from WordleGraphics import  WordleSquare, CORRECT_COLOR, PRESENT_COLOR, MISSING_COLOR
 
 def wordle():
+
+    def guess_counts(guess):
+        guessDict = {}
+        guess = guess.lower()
+        for l in guess:
+            if l in guessDict.keys():
+                guessDict[l] += 1
+            else:
+                guessDict[l] = 1
+        return guessDict
+
+    def word_counts(gameWord):
+        wordDict = {}
+        gameWord = gameWord.lower()
+        for l in gameWord:
+            if l in wordDict.keys():
+                wordDict[l] += 1
+            else:
+                wordDict[l] = 1
+        return wordDict
     
     #Select Word
     def generateWord():
@@ -20,11 +40,12 @@ def wordle():
     
     gameWord = generateWord()
     print(gameWord)      
-
+    
 
         #Check if word is valid
     def check_word(guess,valid,gameWord,correct):
         guess = guess.lower()
+        wordDict = word_counts(gameWord)
         if guess not in FIVE_LETTER_WORDS:
             valid = False
             gw.show_message("Not in word list")
@@ -36,19 +57,28 @@ def wordle():
             valid = True
             correct = True
         else:
+            guessDict = guess_counts(guess)
             for i in range(N_COLS):
                 letter = guess[i]
                 wordRow = gw.get_current_row()
                 ws = WordleSquare(gw._canvas, wordRow, i)
                 l = ws.get_letter()
                 print(letter, l)
+                
 
                 if letter == gameWord[i]:
                     print("yes")
                     gw.set_square_color(wordRow, i, CORRECT_COLOR)
+                    wordDict[letter] -= 1
+
                 elif letter in gameWord:
-                    print("maybe")
-                    gw.set_square_color(wordRow, i, PRESENT_COLOR)
+                    if wordDict[letter] > 0:
+                        print("maybe")
+                        gw.set_square_color(wordRow, i, PRESENT_COLOR)
+                        wordDict[letter] -= 1
+                    else:
+                        print("no")
+                        gw.set_square_color(wordRow, i, MISSING_COLOR)
                 else:
                     print("no")
                     gw.set_square_color(wordRow, i, MISSING_COLOR)
@@ -67,34 +97,18 @@ def wordle():
             guess = guess + gw.get_square_letter(row,l)
         
         valid, correct = check_word(guess,valid,gameWord,correct)
-        color_letters(guess)
-        
+
     
         if valid == True:    
             row = row + 1
 
         row = gw.set_current_row(row)
 
-        
-<<<<<<< HEAD
-    def color_letters(guess):
-        alphabet = {
-        'a': 0, 'b': 0, 'c': 0, 'd': 0, 'e': 0, 'f': 0, 'g': 0, 'h': 0, 'i': 0, 'j': 0,
-        'k': 0, 'l': 0, 'm': 0, 'n': 0, 'o': 0, 'p': 0, 'q': 0, 'r': 0, 's': 0, 't': 0,
-        'u': 0, 'v': 0, 'w': 0, 'x': 0, 'y': 0, 'z': 0
-        }
-        for l in guess:
-            alphabet[l.lower()] += 1
-        # if 3 in alphabet.values():
-        #     #do something
-        # elif 2 in alphabet.values():
-        #     #do something
-            
+
+
         
 
   
-=======
->>>>>>> e71655409911e49f962906748419701520f69f4d
         
         
     
