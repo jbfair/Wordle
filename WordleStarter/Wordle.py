@@ -12,7 +12,8 @@ from tkinter import Button
 
 from WordleDictionary import FIVE_LETTER_WORDS
 from WordleGraphics import WordleGWindow, N_COLS, N_ROWS
-from WordleGraphics import  WordleSquare, CORRECT_COLOR, PRESENT_COLOR, MISSING_COLOR
+from WordleGraphics import  WordleSquare, CORRECT_COLOR, PRESENT_COLOR, MISSING_COLOR, CORRECT_COLOR2, PRESENT_COLOR2
+from WordleGraphics import WordleKey
 
 def start_new_game():
     # Code to start a new game goes here
@@ -21,6 +22,26 @@ def start_new_game():
 
 def wordle():
     
+    def guess_counts(guess):
+        guessDict = {}
+        guess = guess.lower()
+        for l in guess:
+            if l in guessDict.keys():
+                guessDict[l] += 1
+            else:
+                guessDict[l] = 1
+        return guessDict
+
+    def word_counts(gameWord):
+        wordDict = {}
+        gameWord = gameWord.lower()
+        for l in gameWord:
+            if l in wordDict.keys():
+                wordDict[l] += 1
+            else:
+                wordDict[l] = 1
+        return wordDict
+    
     #Select Word
     def generateWord():
         gameWord = random.choice(FIVE_LETTER_WORDS)
@@ -28,11 +49,12 @@ def wordle():
     
     gameWord = generateWord()
     print(gameWord)      
-
+    
 
         #Check if word is valid
     def check_word(guess,valid,gameWord,correct):
         guess = guess.lower()
+        wordDict = word_counts(gameWord)
         if guess not in FIVE_LETTER_WORDS:
             valid = False
             gw.show_message("Not in word list")
@@ -44,19 +66,28 @@ def wordle():
             valid = True
             correct = True
         else:
+            guessDict = guess_counts(guess)
             for i in range(N_COLS):
                 letter = guess[i]
                 wordRow = gw.get_current_row()
                 ws = WordleSquare(gw._canvas, wordRow, i)
                 l = ws.get_letter()
                 print(letter, l)
+                
 
                 if letter == gameWord[i]:
                     print("yes")
                     gw.set_square_color(wordRow, i, CORRECT_COLOR)
+                    wordDict[letter] -= 1
+
                 elif letter in gameWord:
-                    print("maybe")
-                    gw.set_square_color(wordRow, i, PRESENT_COLOR)
+                    if wordDict[letter] > 0:
+                        print("maybe")
+                        gw.set_square_color(wordRow, i, PRESENT_COLOR)
+                        wordDict[letter] -= 1
+                    else:
+                        print("no")
+                        gw.set_square_color(wordRow, i, MISSING_COLOR)
                 else:
                     print("no")
                     gw.set_square_color(wordRow, i, MISSING_COLOR)
@@ -75,20 +106,22 @@ def wordle():
             guess = guess + gw.get_square_letter(row,l)
         
         valid, correct = check_word(guess,valid,gameWord,correct)
-        
+
     
         if valid == True:    
             row = row + 1
 
         row = gw.set_current_row(row)
-  
+
+        
+        
+        
     
     gw = WordleGWindow()
-    
     row = 0
     gw.add_enter_listener(enter_action)
     gw.set_current_row(row)
-
+    
     
     english_button = Button(gw._canvas, text="English", command=start_new_game)
     english_button.place(x=10, y=10)  # Adjust x and y coordinates as needed
