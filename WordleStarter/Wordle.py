@@ -6,10 +6,18 @@ BE SURE TO UPDATE THIS COMMENT WHEN YOU WRITE THE CODE.
 """
 
 import random
+import tkinter as tk
+from tkinter import Button
+
 
 from WordleDictionary import FIVE_LETTER_WORDS
 from WordleGraphics import WordleGWindow, N_COLS, N_ROWS
 from WordleGraphics import  WordleSquare, CORRECT_COLOR, PRESENT_COLOR, MISSING_COLOR
+
+def start_new_game():
+    # Code to start a new game goes here
+    pass
+
 
 def wordle():
     
@@ -73,10 +81,7 @@ def wordle():
             row = row + 1
 
         row = gw.set_current_row(row)
-
-        
-        
-        
+  
     
     gw = WordleGWindow()
     
@@ -85,9 +90,18 @@ def wordle():
     gw.set_current_row(row)
 
     
+    english_button = Button(gw._canvas, text="English", command=start_new_game)
+    english_button.place(x=10, y=10)  # Adjust x and y coordinates as needed
 
+    somoli_button = Button(gw._canvas, text="Somoli", command=start_new_game)
+    somoli_button.place(x=10, y=40)  # Adjust x and y coordinates as needed
 
-    
+    color_button = Button(gw._canvas, text="Standard", command=start_new_game)
+    color_button.place(x=435, y=10)  # Adjust x and y coordinates as needed
+
+    new_color_button = Button(gw._canvas, text="New Color", command=start_new_game)
+    new_color_button.place(x=426, y=40)  # Adjust x and y coordinates as needed
+
     #Convert word to letters and place in first row
     # for x in range(0,N_COLS):
     #     gw.set_square_letter(0,x,word[x])
