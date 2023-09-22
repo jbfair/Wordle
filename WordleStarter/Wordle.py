@@ -81,7 +81,7 @@ def wordle():
                     wordDict[letter] -= 1
 
                 elif letter in gameWord:
-                    if wordDict[letter] > 0:
+                    if wordDict[letter] > 0 and letter != gameWord[i]:
                         print("maybe")
                         gw.set_square_color(wordRow, i, PRESENT_COLOR)
                         wordDict[letter] -= 1
