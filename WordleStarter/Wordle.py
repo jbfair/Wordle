@@ -29,6 +29,13 @@ def wordle():
         new = True
         print("New Color Activated")
 
+    def original_color():
+        global new 
+        new = False
+        print("Original Color Activated")
+    
+    original_color
+
     def guess_counts(guess):
         guessDict = {}
         guess = guess.lower()
@@ -83,7 +90,7 @@ def wordle():
                 wordRow = gw.get_current_row()
                 ws = WordleSquare(gw._canvas, wordRow, i)
                 l = ws.get_letter()
-                print(letter, l, '***',method_access_count)
+                print(letter, l)
 
 
                 if letter == gameWord[i]:
@@ -160,8 +167,8 @@ def wordle():
     somoli_button = Button(gw._canvas, text="Somali", command= lambda: start_new_game())
     somoli_button.place(x=10, y=40)  # Adjust x and y coordinates as needed
 
-    # color_button = Button(gw._canvas, text="Standard", command=start_new_game)
-    # color_button.place(x=435, y=10)  # Adjust x and y coordinates as needed
+    color_button = Button(gw._canvas, text="Standard", command=original_color)
+    color_button.place(x=435, y=10)  # Adjust x and y coordinates as needed
 
     new_color_button = Button(gw._canvas, text="New Color", command=new_color)
     new_color_button.place(x=426, y=40)  # Adjust x and y coordinates as needed
