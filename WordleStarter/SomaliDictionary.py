@@ -1,4 +1,4 @@
-somoli = ['noqon', 'siman', 'diray', 'bangi', 'caado', 'nuqul', 
+somali = ['noqon', 'siman', 'diray', 'bangi', 'caado', 'nuqul', 
             'qabow', 'codka', 'tamar', 'dhici', 'qaado', 'jecel',
             'lacag', 'iyaga', 'lahaa', 'filan', 'lacag', 
             'boqol', 'qaban', 'danta', 'falka', 'gabyi', 'subax', 'toban',

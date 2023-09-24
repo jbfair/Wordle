@@ -14,13 +14,14 @@ from WordleDictionary import FIVE_LETTER_WORDS
 from WordleGraphics import WordleGWindow, N_COLS, N_ROWS
 from WordleGraphics import  WordleSquare, CORRECT_COLOR, PRESENT_COLOR, MISSING_COLOR, CORRECT_COLOR2, PRESENT_COLOR2
 from WordleGraphics import WordleKey
+from SomaliDictionary import somali
 
-def start_new_game():
-    # Code to start a new game goes here
-    pass
+def start_new_game(language):
+    language = language
+    wordle(language)
 
 
-def wordle():
+def wordle(language = 'english'):
     
     def guess_counts(guess):
         guessDict = {}
@@ -43,37 +44,63 @@ def wordle():
         return wordDict
     
     #Select Word
-    def generateWord():
-        gameWord = random.choice(FIVE_LETTER_WORDS)
+    def generateWord(language):
+        if language == 'english':
+            gameWord = random.choice(FIVE_LETTER_WORDS)
+        else:
+            gameWord = random.choice(somali)
+
         return gameWord
     
-    gameWord = generateWord()
+    language = language
+    gameWord = generateWord(language)
     print(gameWord)      
     
 
         #Check if word is valid
-    def check_word(guess,valid,gameWord,correct):
+    def check_word(guess,valid,gameWord,correct,language):
         guess = guess.lower()
         wordDict = word_counts(gameWord)
-        if guess not in FIVE_LETTER_WORDS:
-            valid = False
-            gw.show_message("Not in word list")
-        elif guess == gameWord:
-            for i in range(N_COLS):
-                wordRow = gw.get_current_row()
-                gw.set_square_color(wordRow, i, CORRECT_COLOR)
-            gw.show_message(f"You guessed the word in {gw.get_current_row()+1} guesses!")
-            valid = True
-            correct = True
+        if language == 'english':
+            if guess not in FIVE_LETTER_WORDS:
+                valid = False
+                gw.show_message("Not in word list")
+            elif guess == gameWord:
+                for i in range(N_COLS):
+                    wordRow = gw.get_current_row()
+                    gw.set_square_color(wordRow, i, CORRECT_COLOR)
+                gw.show_message(f"You guessed the word in {gw.get_current_row()+1} guesses!")
+                valid = True
+                correct = True
+            else:
+                guessDict = guess_counts(guess)
+                for i in range(N_COLS):
+                    letter = guess[i]
+                    wordRow = gw.get_current_row()
+                    ws = WordleSquare(gw._canvas, wordRow, i)
+                    l = ws.get_letter()
+                    print(letter, l)
         else:
-            guessDict = guess_counts(guess)
-            for i in range(N_COLS):
-                letter = guess[i]
-                wordRow = gw.get_current_row()
-                ws = WordleSquare(gw._canvas, wordRow, i)
-                l = ws.get_letter()
-                print(letter, l)
-                
+            if guess not in somali:
+                valid = False
+                gw.show_message("Not in word list")
+            elif guess == gameWord:
+                for i in range(N_COLS):
+                    wordRow = gw.get_current_row()
+                    gw.set_square_color(wordRow, i, CORRECT_COLOR)
+                gw.show_message(f"You guessed the word in {gw.get_current_row()+1} guesses!")
+                valid = True
+                correct = True
+            else:
+                guessDict = guess_counts(guess)
+                for i in range(N_COLS):
+                    letter = guess[i]
+                    wordRow = gw.get_current_row()
+                    ws = WordleSquare(gw._canvas, wordRow, i)
+                    l = ws.get_letter()
+                    print(letter, l)
+
+
 
                 if letter == gameWord[i]:
                     print("yes")
@@ -92,6 +119,18 @@ def wordle():
                     print("no")
                     gw.set_square_color(wordRow, i, MISSING_COLOR)
 
+            if -1 in wordDict.values():
+                for item in wordDict.items():
+                    if item[1] == -1:
+                        problem = item[0]
+                for x in range(N_COLS):
+                    wordRow = gw.get_current_row()
+                    ws1 = WordleSquare(gw._canvas, wordRow, x)
+                    l1 = ws1.get_letter()
+                    if l1 == problem:
+                        gw.set_square_color(wordRow, x, MISSING_COLOR)
+    
+            print(wordDict)
             gw.show_message("So far, so good")
             valid = True
         return valid, correct
@@ -105,7 +144,7 @@ def wordle():
         for l in range(N_COLS):
             guess = guess + gw.get_square_letter(row,l)
         
-        valid, correct = check_word(guess,valid,gameWord,correct)
+        valid, correct = check_word(guess,valid,gameWord,correct,language)
 
     
         if valid == True:    
@@ -123,17 +162,17 @@ def wordle():
     gw.set_current_row(row)
     
     
-    english_button = Button(gw._canvas, text="English", command=start_new_game)
-    english_button.place(x=10, y=10)  # Adjust x and y coordinates as needed
+    # english_button = Button(gw._canvas, text="English", command=start_new_game())
+    # english_button.place(x=10, y=10)  # Adjust x and y coordinates as needed
 
-    somoli_button = Button(gw._canvas, text="Somoli", command=start_new_game)
+    somoli_button = Button(gw._canvas, text="Somali", command= lambda: start_new_game("somali"))
     somoli_button.place(x=10, y=40)  # Adjust x and y coordinates as needed
 
-    color_button = Button(gw._canvas, text="Standard", command=start_new_game)
-    color_button.place(x=435, y=10)  # Adjust x and y coordinates as needed
+    # color_button = Button(gw._canvas, text="Standard", command=start_new_game)
+    # color_button.place(x=435, y=10)  # Adjust x and y coordinates as needed
 
-    new_color_button = Button(gw._canvas, text="New Color", command=start_new_game)
-    new_color_button.place(x=426, y=40)  # Adjust x and y coordinates as needed
+    # new_color_button = Button(gw._canvas, text="New Color", command=start_new_game)
+    # new_color_button.place(x=426, y=40)  # Adjust x and y coordinates as needed
 
     #Convert word to letters and place in first row
     # for x in range(0,N_COLS):
@@ -145,4 +184,4 @@ def wordle():
 # Startup code
 
 if __name__ == "__main__":
-    wordle()
+    wordle("english")
