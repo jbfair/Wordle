@@ -19,9 +19,16 @@ from SomaliDictionary import somali
 def start_new_game():
     somoliWordle()
 
+new = False
+
 
 def wordle():
-    
+
+    def new_color():
+        global new 
+        new = True
+        print("New Color Activated")
+
     def guess_counts(guess):
         guessDict = {}
         guess = guess.lower()
@@ -61,7 +68,11 @@ def wordle():
         elif guess == gameWord:
             for i in range(N_COLS):
                 wordRow = gw.get_current_row()
-                gw.set_square_color(wordRow, i, CORRECT_COLOR)
+                if new == False:
+                    gw.set_square_color(wordRow, i, CORRECT_COLOR)
+                else:
+                    gw.set_square_color(wordRow, i, CORRECT_COLOR2)
+
             gw.show_message(f"You guessed the word in {gw.get_current_row()+1} guesses!")
             valid = True
             correct = True
@@ -72,18 +83,26 @@ def wordle():
                 wordRow = gw.get_current_row()
                 ws = WordleSquare(gw._canvas, wordRow, i)
                 l = ws.get_letter()
-                print(letter, l)
+                print(letter, l, '***',method_access_count)
 
 
                 if letter == gameWord[i]:
                     print("yes")
-                    gw.set_square_color(wordRow, i, CORRECT_COLOR)
+                    if new == False:
+                        gw.set_square_color(wordRow, i, CORRECT_COLOR)
+                    else:
+                        gw.set_square_color(wordRow, i, CORRECT_COLOR2)
+
                     wordDict[letter] -= 1
 
                 elif letter in gameWord:
                     if wordDict[letter] > 0 and letter != gameWord[i]:
                         print("maybe")
-                        gw.set_square_color(wordRow, i, PRESENT_COLOR)
+                        if new == False:
+                            gw.set_square_color(wordRow, i, PRESENT_COLOR)
+                        else:
+                            gw.set_square_color(wordRow, i, PRESENT_COLOR2)
+
                         wordDict[letter] -= 1
                     else:
                         print("no")
@@ -144,8 +163,8 @@ def wordle():
     # color_button = Button(gw._canvas, text="Standard", command=start_new_game)
     # color_button.place(x=435, y=10)  # Adjust x and y coordinates as needed
 
-    # new_color_button = Button(gw._canvas, text="New Color", command=new_color)
-    # new_color_button.place(x=426, y=40)  # Adjust x and y coordinates as needed
+    new_color_button = Button(gw._canvas, text="New Color", command=new_color)
+    new_color_button.place(x=426, y=40)  # Adjust x and y coordinates as needed
 
     #Convert word to letters and place in first row
     # for x in range(0,N_COLS):
