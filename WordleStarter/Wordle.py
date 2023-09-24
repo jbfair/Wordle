@@ -178,7 +178,17 @@ def wordle():
     #     gw.set_square_letter(0,x,word[x])
 
 def somoliWordle():
-    
+
+    def new_color():
+        global new 
+        new = True
+        print("New Color Activated")
+
+    def original_color():
+        global new 
+        new = False
+        print("Original Color Activated")
+   
     def guess_counts(guess):
         guessDict = {}
         guess = guess.lower()
@@ -218,7 +228,11 @@ def somoliWordle():
         elif guess == gameWord:
             for i in range(N_COLS):
                 wordRow = gw.get_current_row()
-                gw.set_square_color(wordRow, i, CORRECT_COLOR)
+                if new == False:
+                    gw.set_square_color(wordRow, i, CORRECT_COLOR)
+                else:
+                    gw.set_square_color(wordRow, i, CORRECT_COLOR2)
+
             gw.show_message(f"You guessed the word in {gw.get_current_row()+1} guesses!")
             valid = True
             correct = True
@@ -234,13 +248,20 @@ def somoliWordle():
 
                 if letter == gameWord[i]:
                     print("yes")
-                    gw.set_square_color(wordRow, i, CORRECT_COLOR)
+                    if new == False:
+                        gw.set_square_color(wordRow, i, CORRECT_COLOR)
+                    else:
+                        gw.set_square_color(wordRow, i, CORRECT_COLOR2)
+
                     wordDict[letter] -= 1
 
                 elif letter in gameWord:
                     if wordDict[letter] > 0 and letter != gameWord[i]:
                         print("maybe")
-                        gw.set_square_color(wordRow, i, PRESENT_COLOR)
+                        if new == False:
+                            gw.set_square_color(wordRow, i, PRESENT_COLOR)
+                        else:
+                            gw.set_square_color(wordRow, i, PRESENT_COLOR2)
                         wordDict[letter] -= 1
                     else:
                         print("no")
@@ -290,11 +311,11 @@ def somoliWordle():
     gw.set_current_row(row)
     
 
-    # color_button = Button(gw._canvas, text="Standard", command=start_new_game)
-    # color_button.place(x=435, y=10)  # Adjust x and y coordinates as needed
+    color_button = Button(gw._canvas, text="Standard", command=original_color)
+    color_button.place(x=435, y=10)  # Adjust x and y coordinates as needed
 
-    # new_color_button = Button(gw._canvas, text="New Color", command=start_new_game)
-    # new_color_button.place(x=426, y=40)  # Adjust x and y coordinates as needed
+    new_color_button = Button(gw._canvas, text="New Color", command=new_color)
+    new_color_button.place(x=426, y=40)  # Adjust x and y coordinates as needed
 
 
     
